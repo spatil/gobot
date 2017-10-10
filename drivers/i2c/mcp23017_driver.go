@@ -203,6 +203,26 @@ func (m *MCP23017Driver) SetGPIOPolarity(pin uint8, val uint8, portStr string) (
 	return m.write(selectedPort.IPOL, pin, val)
 }
 
+// SetDefaultValue will set the default value for in register to Compare with INTCON
+func (m *MCP23017Driver) SetDefaultValue(pin uint8, val uint8, portStr string) (err error) {
+	selectedPort := m.getPort(portStr)
+	return m.write(selectedPort.DEFVAL, pin, val)
+}
+
+// SetDefaultValue will set the default value for in register to Compare with INTCON
+func (m *MCP23017Driver) SetControlRegister(pin uint8, val uint8, portStr string) (err error) {
+	selectedPort := m.getPort(portStr)
+	return m.write(selectedPort.INTCON, pin, val)
+}
+
+// SetInterrupt will set the pin value:
+// val = 1 enable interrupt
+// val = 0 disable interrupt
+func (m *MCP23017Driver) SetInterrupt(pin uint8, val uint8, portStr string) (err error) {
+	selectedPort := m.getPort(portStr)
+	return m.write(selectedPort.GPINTEN, pin, val)
+}
+
 // WithMCP23017Bank option sets the MCP23017Driver bank option
 func WithMCP23017Bank(val uint8) func(Config) {
 	return func(c Config) {
